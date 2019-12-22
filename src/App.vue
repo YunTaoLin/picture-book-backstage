@@ -12,18 +12,18 @@
     <div class="myContainer">
       <div class="main">
         <div class="control_bar">
-            <a href="#">
+            <router-link to="/commodity">
               <div class="icon"><i class="fa fa-shopping-cart" aria-hidden="true"></i></div>
               <p>商品管理</p>
-            </a>
-            <a href="#">
+            </router-link>
+            <router-link to="/order">
               <div class="icon"><i class="fa fa-list" aria-hidden="true"></i></div>
               <p>訂單管理</p>
-            </a>
-            <a href="#">
+            </router-link>
+            <router-link to="member">
               <div class="icon"><i class="fa fa-user" aria-hidden="true"></i></div>
               <p>會員管理</p>
-            </a>
+            </router-link>
           </div>
         <div class="view">
           <router-view/>
@@ -42,7 +42,7 @@ export default {
 </script>
 
 
-<style lang="scss" scoped>
+<style lang="scss" >
 @import url('./assets/scss/_reset.scss');
 $primary-color:#282D41;
 $secondary-color:#847874;
@@ -127,4 +127,8 @@ body,html{
     width: calc(100% - 150px);
     padding:4vh 2vw;
   }
+.router-link-active{
+  background-color:rgb(33, 38, 56);
+}
+  
 </style>
