@@ -1,17 +1,18 @@
 <template>
   <div class="new">
-    <h2>新增商品</h2>
+    <h2>編輯商品</h2>
+     <p>商品編號：{{commodity._id}}</p>
     <div class="cancel">
      <a href="javascirpt:;" @click="cancel"> <i class="fa fa-times" aria-hidden="true"></i></a>
     </div>
     <form >
       <label for="title">
         商品名稱：
-        <input type="text" id="title" v-model="newCommodity.title">
+        <input type="text" id="title" v-model="editData.title">
       </label>
       <label for="img">
         年齡分類：
-        <select name="" id="classify" v-model="newCommodity.classify">
+        <select name="" id="classify" v-model="editData.classify">
           <option value="-1">當季精選</option>
           <option value="0">0-6歲幼兒繪本</option>
           <option value="1">6-12歲兒童繪本</option>
@@ -21,21 +22,21 @@
       </label>
       <label for="img">
         商品圖片：
-        <input type="text" id="img" v-model="newCommodity.img">
+        <input type="text" id="img" v-model="editData.img">
       </label>
       <label for="ori_price">
         商品原價：
-        <input type="number" id="ori_price" v-model="newCommodity.ori_price">
+        <input type="number" id="ori_price" v-model="editData.ori_price">
       </label>
       <label for="sale_price">
         優惠價格：
-        <input type="number" id="sale_price" v-model="newCommodity.sale_price">
+        <input type="number" id="sale_price" v-model="editData.sale_price">
       </label>
       <label for="info">
         商品資訊：
-       <textarea name="" id="info" cols="30" rows="8" v-model="newCommodity.info"></textarea>
+       <textarea name="" id="info" cols="30" rows="8" v-model="editData.info"></textarea>
       </label>
-      <a href="javascript:;" @click="addCommodity">新增</a>
+      <a href="javascript:;" @click="update">更新</a>
     </form>
 
   </div>
@@ -43,15 +44,16 @@
 
 <script>
 export default {
+  props:{commodity:Object},
   data(){
-      return{
-        newCommodity:{
-          title:'',
-          img:'',
-          ori_price:0,
-          sale_price:0,
-          info:'',
-          classify:-1
+    return {
+      editData:{
+        title:this.commodity.title,
+        img:this.commodity.img,
+        ori_price:this.commodity.ori_price,
+        sale_price:this.commodity.sale_price,
+        info:this.commodity.info,
+        classify:this.commodity.classify
       }
     }
   },
@@ -59,10 +61,13 @@ export default {
     cancel(){
       this.$emit('cancel')
     },
-    addCommodity(){
+    update(){
+      this.$store.dispatch('a_updateCommodity',{
+        data:this.editData,
+        commodity_id:this.commodity._id
+      })
       this.cancel()
-      this.$store.dispatch('a_addCommodity',this.newCommodity)
-    }
+    },
   }
 }
 </script>
@@ -72,9 +77,10 @@ export default {
     position: fixed;
     top: 50%;
     left: 50%;
+    z-index: 555;
     transform: translate(-50%,-50%);
     width: 450px;
-    height: 600px;
+    height: 640px;
     background-color: #434957;   
     padding: 20px 40px;
     border: 1px solid #ccc;
@@ -95,7 +101,7 @@ export default {
       margin: 12px 0;
       display:flex;
       align-items: flex-start;
-      input,textarea,select,option{
+      input,textarea,select{
         width: 70%;
         padding: 4px;
         border-radius: 2px;

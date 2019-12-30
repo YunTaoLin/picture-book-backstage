@@ -34,20 +34,20 @@
               <tr v-for="item in filterList" :key="item._id">
                 <th :style="'color:'+statusColor(item.status)">{{status(item.status)}}</th>
                 <th>{{item._id}}</th>
-                <th>{{`${query_user(item.user).firstname} ${query_user(item.user).lastname}`}}<br>{{`（${item.user}）`}}</th>
+                <th>{{item.name}}<br><span class="member_id">{{`（${item.userId}）`}}</span></th>
                 <th class="content">
                   <ul>
-                    <li v-for="(content,index) in item.content" :key="index">
+                    <li v-for="(content,index) in item.buy" :key="index">
                       {{query_commodity(content.id).title}} X {{content.number}}
                     </li>
                   </ul>
                 </th>
                 <th :title="item.address"><p class="text-over">{{item.address}}</p></th>
                 <th>{{item.tel}}</th>
-                <th>{{pay(item.content,item.freight)}}元</th>
-                <th>{{item.create_time}}</th>
+                <th>{{item.total}}元</th>
+                <th>{{new Date(item.create_time).toLocaleString()}}</th>
                 <th>
-                  <a href="javascript:;"><i class="fa fa-pencil" aria-hidden="true"></i>編輯</a>
+                  <a href="javascript:;" @click="edit(item)"><i class="fa fa-pencil" aria-hidden="true" ></i>變更狀態</a>
                   <a href="javascript:;"><i class="fa fa-trash" aria-hidden="true"></i>刪除</a>
                 </th>
               </tr>
@@ -55,24 +55,25 @@
           </table>
       </div>
     </div>
-    <newCommodity v-if="show" @cancel="show = false"/>
+    <orderStatus v-if="editing._id" @cancel="editing = {}" :order="editing"/>
   </div>
 </template>
 
 <script>
-import newCommodity from '../components/newCommodity.vue'
+import orderStatus from '../components/OrderStatus.vue'
 export default {
   components:{
-    newCommodity
+    orderStatus
   },
   data(){
     return {
-      show: false,
+      show: true,
       order: this.$store.state.order,
       user: this.$store.state.user,
       commodity:this.$store.state.commodity,
       queryID:'',
-      queryStatus:'0'
+      queryStatus:'0',
+      editing:{}
     }
   },
   computed:{
@@ -100,6 +101,7 @@ export default {
   },
   methods:{
     status(type){
+      type = parseInt(type)
       let status;
       switch (type){
         case 0 : 
@@ -135,6 +137,7 @@ export default {
       return total+parseInt(freight)
     },
     statusColor(type){
+      type = parseInt(type)
       let color;
       switch (type){
         case 0 : 
@@ -147,6 +150,9 @@ export default {
           color= 'green'
       }
       return color
+    },
+    edit(item){
+      this.editing = item
     }
   }
 }
@@ -196,21 +202,24 @@ table{
   min-width: 1200px;
   border-collapse:collapse;
   // border-bottom: 2px solid #ccc;
-  tr th:nth-of-type(1){width: 5%;}
+  tr th:nth-of-type(1){width: 7%;}
   tr th:nth-of-type(2){width: 10%;}
   tr th:nth-of-type(3){width: 10%;}
   tr th:nth-of-type(4){width: 20%;}
   tr th:nth-of-type(5){width: 15%;}
-  tr th:nth-of-type(6){width: 10%;}
+  tr th:nth-of-type(6){width: 8%;}
   tr th:nth-of-type(7){width: 10%;}
   tr th:nth-of-type(8){width: 10%;}
-  tr th:nth-of-type(8){width: 10%;}
+  tr th:nth-of-type(9){width: 10%;}
   thead tr th{
     height: 42px;
     line-height: 42px;
     border-bottom: 2px solid #ccc;
   }
   tbody{
+    tr{
+      padding: 12px 0;
+    }
     tr:nth-of-type(odd){
       background-color: #f0f0f0;
     }
@@ -219,6 +228,10 @@ table{
       width: 50px;
       padding: 2.5px 2.5px 0;
       object-fit: cover;
+    }
+    .member_id{
+      font-size: 12px;
+      color: #aaa;
     }
     .content{
       ul{
@@ -238,9 +251,6 @@ table{
         color: #183c7a;
         font-weight: 700;
       }
-    }
-    th:first-child{
-      font-size: 16px;
     }
   }
 }

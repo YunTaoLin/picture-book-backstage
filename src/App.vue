@@ -38,6 +38,11 @@
 // @ is an alias to /src
 
 export default {
+  beforeCreate(){
+    this.$store.dispatch('a_getMember')
+    this.$store.dispatch('a_getCommodity')
+    this.$store.dispatch('a_getOrder')
+  }
 }
 </script>
 

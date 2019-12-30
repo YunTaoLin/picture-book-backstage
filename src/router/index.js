@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 // import Home from '../views/Home.vue'
 import Commodity from '../views/Commodity.vue'
 import Order from '../views/Order.vue'
-import Member from '../views/Member'
+import Member from '../views/Member.vue'
 Vue.use(VueRouter)
 
 const routes = [{
