@@ -45,38 +45,38 @@ export default new Vuex.Store({
     },
     actions: {
         a_getMember(context) {
-            axios.get('http://127.0.0.1:3000/backstage/getMember')
+            axios.get('/backstage/getMember')
                 .then(res => {
                     context.commit('getMember', res.data.member)
                 })
         },
         a_updateMember(context, data) {
-            axios.post('http://127.0.0.1:3000/backstage/updateMember', data)
+            axios.post('/backstage/updateMember', data)
                 .then(() => {
                     console.log('已完成更新')
                     context.commit('updateMember', data)
                 })
         },
         a_getCommodity(context) {
-            axios.get('http://127.0.0.1:3000/backstage/getCommodity')
+            axios.get('/backstage/getCommodity')
                 .then(res => {
                     context.commit('getCommodity', res.data.commodity)
                 })
         },
         a_addCommodity(context, data) {
-            axios.post('http://127.0.0.1:3000/backstage/addCommodity', data)
+            axios.post('/backstage/addCommodity', data)
                 .then((res) => {
                     context.commit('addCommodity', res.data.commodity)
                 })
         },
         a_updateCommodity(context, data) {
-            axios.post('http://127.0.0.1:3000/backstage/updateCommodity', data)
+            axios.post('/backstage/updateCommodity', data)
                 .then((res) => {
                     context.commit('updateCommodity', res.data.data)
                 })
         },
         a_getOrder(context, data) {
-            axios.get('http://127.0.0.1:3000/backstage/getOrder', data)
+            axios.get('/backstage/getOrder', data)
                 .then((res) => {
                     context.commit('getOrder', res.data.order)
                 })
