@@ -33,12 +33,12 @@
             <tbody>
               <tr v-for="item in filterList" :key="item._id">
                 <th :style="'color:'+statusColor(item.status)">{{status(item.status)}}</th>
-                <th>{{item._id}}</th>
-                <th>{{item.name}}<br><span class="member_id">{{`（${item.userId}）`}}</span></th>
+                <th>{{item._id}} </th>
+                <th>{{item.name}}<br> <span class="member_id"> {{`（${item.userId}）`}}</span></th>
                 <th class="content">
                   <ul>
                     <li v-for="(content,index) in item.buy" :key="index">
-                      {{query_commodity(content.id).title}} X {{content.number}}
+                      {{query_commodity(content.id)}} X {{content.number}}
                     </li>
                   </ul>
                 </th>
@@ -48,7 +48,7 @@
                 <th>{{new Date(item.create_time).toLocaleString()}}</th>
                 <th>
                   <a href="javascript:;" @click="edit(item)"><i class="fa fa-pencil" aria-hidden="true" ></i>變更狀態</a>
-                  <a href="javascript:;"><i class="fa fa-trash" aria-hidden="true"></i>刪除</a>
+                  <a href="javascript:;" @click='deleteHandler(item)'><i class="fa fa-trash" aria-hidden="true"></i>刪除</a>
                 </th>
               </tr>
             </tbody>
@@ -72,13 +72,14 @@ export default {
       user: this.$store.state.user,
       commodity:this.$store.state.commodity,
       queryID:'',
-      queryStatus:'0',
+      queryStatus:0,
       editing:{}
     }
   },
   computed:{
     filterList(){
-      let newList=[]
+      console.log('cpmputed啟動'+this.order)
+      let newList=this.order
       //篩選狀態
       if(this.queryStatus==3){
           newList = this.order 
@@ -96,7 +97,7 @@ export default {
           return item._id.indexOf(this.queryID) != -1
         })
       }
-      return result
+      return result.reverse()
     }
   },
   methods:{
@@ -121,11 +122,11 @@ export default {
       })
       return theUser[0]
     },
-    query_commodity(id){
-      let theContent = this.commodity.filter(item=>{
-        return item._id == id
+    query_commodity(queryID){
+      let theContent = this.$store.state.commodity.find(item=>{
+        return item._id.indexOf(queryID) != -1
       })
-      return theContent[0]
+      return theContent? theContent.title : '該商品已被移除'
     },
     pay(content,freight){
       var total =0;
@@ -153,6 +154,14 @@ export default {
     },
     edit(item){
       this.editing = item
+    },
+    deleteHandler(item){
+      if(confirm('是否確定要刪除該訂單資料')){
+        var deleteID = item._id
+          this.$store.dispatch('a_deleteOrder',{
+            deleteID : deleteID
+          })
+      }
     }
   }
 }
@@ -204,7 +213,7 @@ table{
   // border-bottom: 2px solid #ccc;
   tr th:nth-of-type(1){width: 7%;}
   tr th:nth-of-type(2){width: 10%;}
-  tr th:nth-of-type(3){width: 10%;}
+  tr th:nth-of-type(3){width: 10%;padding-left: 8px;}
   tr th:nth-of-type(4){width: 20%;}
   tr th:nth-of-type(5){width: 15%;}
   tr th:nth-of-type(6){width: 8%;}
@@ -235,7 +244,7 @@ table{
     }
     .content{
       ul{
-        margin-left: 2em;
+        margin-right: 1em;
         text-align: left;
       }
     }
@@ -262,5 +271,6 @@ table{
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+  margin: 0 auto;
 }
 </style>

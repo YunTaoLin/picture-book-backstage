@@ -6,7 +6,7 @@
       </div>
       <span class="header_title">後台管理系統</span>
       <div class="logout">
-        <a href="javascript;">登出系統</a>
+        <a href="/">登出系統</a>
       </div>
     </header>
     <div class="myContainer">
@@ -118,7 +118,7 @@ body,html{
         background-color:rgb(33, 38, 56);
       }
       i{
-        font-size: 60px;
+        font-size: 32px;
       }
       p{
         margin-bottom: 0;

@@ -16,7 +16,7 @@
         修改狀態：
         <select id="status" v-model="memberStatus">
           <option value="0">正常使用</option>
-          <option value="1">禁止貨到付款</option>
+          <!-- <option value="1">禁止貨到付款</option> -->
           <option value="2">封鎖中</option>
         </select>
       </label>
@@ -42,6 +42,7 @@ export default {
         status:this.memberStatus,
         member_id:this.member._id
       })
+      this.cancel()
     },
     cancel(){
       this.$emit('cancel')
@@ -54,7 +55,7 @@ export default {
           status= '正常使用';
           break;
         case 1 :
-          status= '禁止貨到付款';
+          // status= '禁止貨到付款';
           break;
         case 2 :
           status= '封鎖中'

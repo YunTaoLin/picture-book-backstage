@@ -11,13 +11,13 @@
     <form >
       <label for="status">
         修改狀態：
-        <select id="status" :value="order.status">
+        <select id="status" v-model="orderStatus">
           <option value="0">尚未處理</option>
           <option value="1">配送中</option>
           <option value="2">已完成</option>
         </select>
       </label>
-      <a href="javascript:;">變更狀態</a>
+      <a href="javascript:;" @click="update">變更狀態</a>
     </form>
 
   </div>
@@ -28,11 +28,16 @@ export default {
   props:{
     order:Object
   },
+  data(){
+    return{
+      orderStatus:this.order.status
+    }
+  },
   methods:{
     cancel(){
       this.$emit('cancel')
     },
-     status(type){
+    status(type){
       type = parseInt(type)
       let status;
       switch (type){
@@ -46,6 +51,13 @@ export default {
           status= '已完成'
       }
       return status 
+    },
+    update(){
+      this.$store.dispatch('a_updateOrder',{
+        status:this.orderStatus,
+        order_id:this.order._id
+      })
+      this.cancel()
     }
   }
 }

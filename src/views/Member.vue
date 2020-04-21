@@ -34,7 +34,7 @@
                 <th>{{status(item.status)}}</th>
                 <th>
                   <a href="javascript:;" @click="edit(item)"><i class="fa fa-pencil" aria-hidden="true" ></i>變更狀態</a>
-                  <a href="javascript:;"><i class="fa fa-trash" aria-hidden="true"></i>刪除</a>
+                  <a href="javascript:;" @click='deleteHandler(item)'><i class="fa fa-trash" aria-hidden="true"></i>刪除</a>
                 </th>
               </tr>
             </tbody>
@@ -80,7 +80,7 @@ export default {
         case 1 :
           gender= '男';
           break;
-        case 2 :
+        case 0 :
           gender= '女'
       }
       return gender 
@@ -93,7 +93,7 @@ export default {
           status= '正常使用';
           break;
         case 1 :
-          status= '禁止貨到付款';
+          // status= '禁止貨到付款';
           break;
         case 2 :
           status= '帳號封鎖中'
@@ -102,6 +102,15 @@ export default {
     },
     edit(item){
       this.editing = item
+    },
+    deleteHandler(item){
+      if(confirm('是否確定要刪除該會員資料')){
+        var deleteID = item._id
+          this.$store.dispatch('a_deleteMember',{
+            deleteID : deleteID
+          })
+      }
+      
     }
   }
   

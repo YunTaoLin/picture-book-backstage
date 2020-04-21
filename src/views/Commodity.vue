@@ -48,7 +48,7 @@
                 <th>{{new Date(item.last_time).toLocaleString()}}</th>
                 <th>
                   <a href="javascript:;" @click="edit(item)"><i class="fa fa-pencil" aria-hidden="true"></i>編輯</a>
-                  <a href="javascript:;"><i class="fa fa-trash" aria-hidden="true"></i>刪除</a>
+                  <a href="javascript:;" @click='deleteHandler(item)'><i class="fa fa-trash" aria-hidden="true"></i>刪除</a>
                 </th>
               </tr>
             </tbody>
@@ -120,6 +120,16 @@ export default {
       }
       return classify 
     },
+    deleteHandler(item){
+      if(confirm('是否確定要刪除該商品')){
+        var deleteID = item._id
+        alert('抱歉，商品刪除功能暫時關閉中')
+        //由於該專案程式碼目前設為公開，商品的刪除功能暫且關閉
+          // this.$store.dispatch('a_deleteCommodity',{
+          //   deleteID : deleteID
+          // })
+      }
+    }
   }
 }
 </script>

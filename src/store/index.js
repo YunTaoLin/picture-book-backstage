@@ -35,12 +35,40 @@ export default new Vuex.Store({
             state.commodity.forEach((item, index) => {
                 if (item._id == data._id) {
                     Vue.set(state.commodity, index, data)
-                    console.log('修改成功')
                 }
             })
         },
         getOrder(state, data) {
             state.order = data
+        },
+        updateOrder(state, data) {
+          state.order.forEach((item) => {
+              if (item._id == data.order_id) {
+                item.status = data.status
+              }
+          })
+        },
+        deleteMember(state, deleteID){
+          console.log('有啟動')
+          var newList = []
+          state.user.forEach(item=>{
+            if(item._id != deleteID){
+              newList.push(item)
+            }
+          })
+          console.log(newList)
+          state.user = newList
+        },
+        deleteOrder(state, deleteID){
+          console.log('有啟動')
+          var newList = []
+          state.order.forEach(item=>{
+            if(item._id != deleteID){
+              newList.push(item)
+            }
+          })
+          console.log(newList)
+          state.order = newList
         }
     },
     actions: {
@@ -53,7 +81,6 @@ export default new Vuex.Store({
         a_updateMember(context, data) {
             axios.post('/backstage/updateMember', data)
                 .then(() => {
-                    console.log('已完成更新')
                     context.commit('updateMember', data)
                 })
         },
@@ -78,9 +105,42 @@ export default new Vuex.Store({
         a_getOrder(context, data) {
             axios.get('/backstage/getOrder', data)
                 .then((res) => {
+                  console.log(res)
                     context.commit('getOrder', res.data.order)
                 })
         },
+        a_updateOrder(context, data) {
+          console.log(data)
+          axios.post('/backstage/updateOrder', data)
+              .then((res) => {
+                  console.log(res)
+                  context.commit('updateOrder', data)
+              })
+        },
+        a_deleteMember(context,data){
+          axios.post('/backstage/deleteMember',data)
+                .then((res) => {
+                  if(res.data.error_code == 0){
+                    alert('刪除完成！')
+                    context.commit('deleteMember', data.deleteID)
+                  }else{
+                    alert('刪除失敗，請稍後再試！')
+                  }
+                })
+        },
+        a_deleteOrder(context,data){
+          axios.post('/backstage/deleteOrder',data)
+                .then((res) => {
+                  console.log(res)
+                  if(res.data.error_code == 0){
+                    alert('刪除完成！')
+                    context.commit('deleteOrder', data.deleteID)
+                  }else{
+                    alert('刪除失敗，請稍後再試！')
+                  }
+                })
+        }
+
     },
     modules: {}
 })
