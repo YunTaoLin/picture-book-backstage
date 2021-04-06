@@ -1,19 +1,14 @@
-# picture-book-backstage
+## 簡介
+- 包含完整前、後台的電商平台開源專案(模擬專案)。
+- 前台code請[見此](https://github.com/YunTaoLin/picture-book)
+- 後端Restful API請[見此](https://github.com/YunTaoLin/picture-book-server)
 
-## Project setup
-```
-npm install
-```
+## 技術架構
+1. 採取前後端分離架構，以Vue為核心的SPA網站
+2. 前端：Vue 2.6.10 + Vue-router + Vuex + Boostrap4 + Scss
+3. 後端：Express.js（Node.js）
+4. 資料庫: MongoDB
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+## 網站入口
+![網站入口](http://172.105.215.182:3000/)
 
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
